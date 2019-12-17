@@ -15,13 +15,17 @@ const client = new Snoowrap({
 // check bot start time in seconds (reddit does not like miliseconds)
 const BOT_START = Date.now() / 1000;
 
+// set up comment stream
 const comments = new CommentStream(client, {
-  subreddit: 'testingground4bots',
+  subreddit: 'all',
   limit: 10,
   pollTime: 10000
 });
 
 comments.on('item', (item) => {
-  if(item.created_utc < BOT_START) return;
-  console.log(item);
+  // if(item.created_utc < BOT_START) return;
+  // console.log(item);
+  if(item.body === ':('){
+    item.reply('Here take this... :D');
+  }
 });
