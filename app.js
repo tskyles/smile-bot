@@ -15,12 +15,18 @@ const client = new Snoowrap({
 // check bot start time in seconds (reddit does not like miliseconds)
 const BOT_START = Date.now() / 1000;
 
-// set up comment stream
+// set up comment stream from /r/all every 2.5 seconds
 const comments = new CommentStream(client, {
   subreddit: 'all',
-  limit: 10,
-  pollTime: 10000
+  pollTime: 2500
 });
+
+const getDate = (time) => {
+  const date = new Date(time * 1000).toLocaleString();
+  return date;
+};
+
+let count = 0;
 
 comments.on('item', (item) => {
   // if(item.created_utc < BOT_START) return;
@@ -28,4 +34,16 @@ comments.on('item', (item) => {
   if(item.body === ':('){
     item.reply('Here take this... :D');
   }
+  if(item.author.name === 'smile-bot-2019'){
+    console.log('my reply', item.author.name, item.body);
+  };
+
+  // check creation time of comment
+  console.log('time created', getDate(item.created_utc));
+
+  // count number of comments parsed since bot started
+  count++;
+  console.log('comments viewed', count);
+
 });
+
