@@ -12,6 +12,9 @@ const client = new Snoowrap({
   password: process.env.REDDIT_PASS
 });
 
+// check bot start time in seconds (reddit does not like miliseconds)
+const BOT_START = Date.now() / 1000;
+
 const comments = new CommentStream(client, {
   subreddit: 'testingground4bots',
   limit: 10,
@@ -19,5 +22,6 @@ const comments = new CommentStream(client, {
 });
 
 comments.on('item', (item) => {
+  if(item.created_utc < BOT_START) return;
   console.log(item);
 });
