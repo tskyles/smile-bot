@@ -17,7 +17,7 @@ const BOT_START = Date.now() / 1000;
 
 // set up comment stream from /r/all every 2.5 seconds
 const comments = new CommentStream(client, {
-  subreddit: 'testingground4bots',
+  subreddit: 'all',
   pollTime: 2500
 });
 
