@@ -17,7 +17,7 @@ const BOT_START = Date.now() / 1000;
 
 // set up comment stream from /r/all every 2.5 seconds
 const comments = new CommentStream(client, {
-  subreddit: 'all',
+  subreddit: 'testingground4bots',
   pollTime: 2500
 });
 
@@ -26,14 +26,15 @@ const getDate = (time) => {
   return date;
 };
 
-let count = 0;
-
+let commentCount = 0;
 comments.on('item', (item) => {
-  // if(item.created_utc < BOT_START) return;
-  // console.log(item);
-  if(item.body === ':('){
-    item.reply('Here take this... :D');
-  }
+  let replyCount = 0;
+  const frownRegex = /:\(/;
+  if(frownRegex.test(item.body) === true && item.author.name !== 'smile-bot-2019'){
+    item.reply(`I noticed one of these... :( \n\n\n\n So here take this... :D`);
+    replyCount++;
+    console.log(replyCount);
+  };
   if(item.author.name === 'smile-bot-2019'){
     console.log('my reply', item.author.name, item.body);
   };
@@ -42,8 +43,8 @@ comments.on('item', (item) => {
   console.log('time created', getDate(item.created_utc));
 
   // count number of comments parsed since bot started
-  count++;
-  console.log('comments viewed', count);
+  commentCount++;
+  console.log('comments viewed', commentCount);
 
 });
 
